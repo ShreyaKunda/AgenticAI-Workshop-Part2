@@ -1,0 +1,13 @@
+timestamp,system,component,status,error_code,temperature,pressure,load,throughput
+2026-08-10 09:00,Packaging-Line-2,Motor-A,Normal,,61,4.8,72,118
+2026-08-10 09:15,Packaging-Line-2,Motor-A,Normal,,62,4.9,73,117
+2026-08-10 09:30,Packaging-Line-2,Motor-A,Warning,E101,68,5.1,78,114
+2026-08-10 09:45,Packaging-Line-2,Motor-A,Warning,E101,74,5.4,84,109
+2026-08-10 10:00,Packaging-Line-2,Motor-A,Critical,E204,81,5.9,91,97
+2026-08-10 10:15,Packaging-Line-2,Motor-A,Critical,E204,85,6.2,94,89
+2026-08-10 10:30,Packaging-Line-2,Motor-A,Stopped,E500,87,6.4,0,0
+2026-08-10 10:45,Packaging-Line-2,Motor-A,Stopped,E500,86,6.3,0,0
+2026-08-10 11:00,Packaging-Line-2,Motor-A,Recovery,,70,5.2,35,54
+2026-08-10 11:15,Packaging-Line-2,Motor-A,Normal,,63,4.9,69,112
+2026-08-10 11:30,Packaging-Line-2,Motor-A,Normal,,62,4.8,71,116
+2026-08-10 11:45,Packaging-Line-2,Motor-A,Normal,,61,4.8,72,117
