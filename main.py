@@ -2,10 +2,22 @@ from crewai import Agent, Task, Crew, LLM
 import csv
 from pathlib import Path
 
+
+# ---------------------------------------------------------
+# 1. Connect CrewAI to your local Ollama model
+# ---------------------------------------------------------
+
 llm = LLM(
     model="ollama/llama3.2",
     base_url="http://localhost:11434"
 )
+
+
+# ---------------------------------------------------------
+# 2. Load the incident data
+# ---------------------------------------------------------
+# Resolve paths relative to the repository root so the script works
+# whether it is run from the repo root or from another directory.
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / "data" / "incident_data.csv"
@@ -16,6 +28,13 @@ with open(DATA_FILE, newline="", encoding="utf-8") as file:
     incident_data = list(csv.DictReader(file))
 
 data_text = "\n".join(str(row) for row in incident_data)
+
+
+# ---------------------------------------------------------
+# 3. Define the agents
+# ---------------------------------------------------------
+# Decide what each specialist should do.
+# Replace the TODO values.
 
 incident_manager = Agent(
     role="TODO",
@@ -57,6 +76,13 @@ report_generator = Agent(
     verbose=True
 )
 
+
+# ---------------------------------------------------------
+# 4. Define the tasks
+# ---------------------------------------------------------
+# Design the investigation workflow.
+# Replace the TODO values in the task descriptions and outputs.
+
 incident_task = Task(
     description="TODO",
     expected_output="TODO",
@@ -71,6 +97,9 @@ log_analysis_task = Task(
     async_execution=True
 )
 
+# This task runs in parallel with log_analysis_task.
+# Because both tasks are asynchronous, it cannot depend on the other async task.
+# Use the incident overview and raw incident data instead.
 technical_task = Task(
     description="TODO",
     expected_output="TODO",
@@ -93,13 +122,40 @@ report_task = Task(
     context=[incident_task, log_analysis_task, technical_task, root_cause_task]
 )
 
+
+# ---------------------------------------------------------
+# 5. Assemble the Crew
+# ---------------------------------------------------------
+
 crew = Crew(
-    agents=[incident_manager, log_analyst, technical_investigator, root_cause_analyst, report_generator],
-    tasks=[incident_task, log_analysis_task, technical_task, root_cause_task, report_task],
+    agents=[
+        incident_manager,
+        log_analyst,
+        technical_investigator,
+        root_cause_analyst,
+        report_generator
+    ],
+    tasks=[
+        incident_task,
+        log_analysis_task,
+        technical_task,
+        root_cause_task,
+        report_task
+    ],
     verbose=True
 )
 
+
+# ---------------------------------------------------------
+# 6. Run the investigation
+# ---------------------------------------------------------
+
 result = crew.kickoff()
+
+
+# ---------------------------------------------------------
+# 7. Save the final report
+# ---------------------------------------------------------
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
